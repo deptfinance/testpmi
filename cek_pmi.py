@@ -99,9 +99,7 @@ async def cek_pmi(nomor_paspor):
     async with async_playwright() as p:
         # Gunakan chromium yang sudah pre-installed di environment
         browser = await p.chromium.launch(
-            headless=True,
-            executable_path='/opt/pw-browsers/chromium',
-            ignore_https_errors=True
+            headless=True
         )
         page = await browser.new_page()
 
