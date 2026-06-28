@@ -97,15 +97,24 @@ async def cek_pmi(nomor_paspor):
     print(f"\n🔍 Mengecek data PMI untuk paspor: {nomor_paspor}\n")
 
     async with async_playwright() as p:
-        # Gunakan chromium yang sudah terinstall
-        browser = await p.chromium.launch(headless=True)
+        # Gunakan chromium yang sudah pre-installed di environment
+        browser = await p.chromium.launch(
+            headless=True,
+            executable_path='/opt/pw-browsers/chromium',
+            ignore_https_errors=True
+        )
         page = await browser.new_page()
 
         try:
             # Buka website
             print("📲 Membuka website BP2MI...")
-            await page.goto("https://siskop2mi.bp2mi.go.id/publik/cek_status",
-                          wait_until="networkidle")
+            try:
+                await page.goto("https://siskop2mi.bp2mi.go.id/publik/cek_status",
+                              wait_until="domcontentloaded",
+                              timeout=30000)
+            except Exception as nav_error:
+                print(f"⚠️  Warning navigasi: {nav_error}")
+                print("   Lanjut dengan coba akses halaman...")
             print("✓ Website terbuka")
 
             # Ambil teks captcha
