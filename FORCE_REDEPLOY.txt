@@ -1,0 +1,44 @@
+🚀 FORCE REDEPLOY DI RENDER
+
+STEP 1: Buka Render Dashboard
+   https://render.com
+   Login dengan GitHub
+
+STEP 2: Klik Service
+   Klik "cek-pmi-bot"
+
+STEP 3: Manual Deploy
+   Cari button "Manual Deploy" (biasanya di atas)
+   atau di tab "Events"
+
+   Click button dengan icon "▶️ Deploy" atau "Manual Deploy"
+
+STEP 4: Confirm Deploy
+   Akan ada popup tanya "Are you sure?"
+   Click "Deploy"
+
+STEP 5: Tunggu Deployment
+   Render akan:
+   - Stop service yang sekarang
+   - Build image baru
+   - Deploy dengan code terbaru
+
+   Lihat logs real-time saat deploy
+
+STEP 6: Tunggu Selesai
+   Status harus change:
+   Building... → Deploying... → Live ✓
+
+   Tunggu sampai muncul: "Running on port 10000"
+
+STEP 7: Test di Telegram
+   Tunggu 30 detik
+   Kirimkan: /start
+   Bot harus respond!
+
+---
+
+Kalau masih error:
+1. Check logs di Render (tab "Logs")
+2. Lihat exact error message
+3. Kasih tahu error-nya
