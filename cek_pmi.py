@@ -13,7 +13,16 @@ from playwright.async_api import async_playwright
 async def cek_pmi_batch(passports):
     """Batch check PMI data from BP2MI"""
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True, args=['--no-sandbox'])
+        browser = await p.chromium.launch(
+            headless=True,
+            args=[
+                '--no-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-gpu',
+                '--single-process',
+                '--disable-setuid-sandbox',
+            ]
+        )
         context = await browser.new_context(
             user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         )
