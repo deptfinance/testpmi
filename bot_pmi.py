@@ -7,6 +7,7 @@ Bot akan menunggu pesan dan cek data PMI berdasarkan nomor paspor yang dikirim u
 
 import asyncio
 import logging
+import os
 from telegram import Update, BotCommand
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from cek_pmi import cek_pmi, display_results
@@ -18,8 +19,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Token Telegram Bot
-TELEGRAM_BOT_TOKEN = "8829845272:AAFIr5llsLgyxSVsW-0T3E_rBT1kjpZcRLw"
+# Token Telegram Bot (from env var or hardcoded)
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', "8829845272:AAFIr5llsLgyxSVsW-0T3E_rBT1kjpZcRLw")
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -199,15 +200,33 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         logger.info(f"Result sent for passport: {nomor_paspor}")
 
     except Exception as e:
-        logger.error(f"Error checking PMI: {e}")
-        await loading_msg.delete()
-        await update.message.reply_text(
-            "❌ **ERROR**\n\n"
-            f"Terjadi kesalahan: `{str(e)}`\n\n"
-            "Silakan coba lagi dalam beberapa saat atau hubungi developer.\n\n"
-            "Tip: Pastikan nomor paspor benar (contoh: AU610053)",
-            parse_mode='Markdown'
-        )
+        error_msg = str(e)
+        logger.error(f"Error checking PMI: {error_msg}")
+
+        try:
+            await loading_msg.delete()
+        except:
+            pass
+
+        # Provide helpful error message
+        if "network" in error_msg.lower() or "connection" in error_msg.lower():
+            response = (
+                "⚠️ **Network Error**\n\n"
+                "Tidak bisa akses website BP2MI.\n"
+                "Kemungkinan:\n"
+                "• Website sedang down\n"
+                "• Internet connection error\n"
+                "• Website sedang maintenance\n\n"
+                "Silakan coba lagi dalam beberapa saat."
+            )
+        else:
+            response = (
+                "❌ **ERROR**\n\n"
+                f"Error: `{error_msg[:80]}`\n\n"
+                "Silakan coba lagi atau hubungi developer."
+            )
+
+        await update.message.reply_text(response, parse_mode='Markdown')
 
 
 async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -230,27 +249,36 @@ def main() -> None:
     print("="*60)
     print("🤖 BOT CECK PMI - TELEGRAM")
     print("="*60)
-    print("\n✓ Bot sedang dijalankan...")
-    print(f"✓ Token: {TELEGRAM_BOT_TOKEN[:20]}...")
+    print(f"\n✓ Token: {TELEGRAM_BOT_TOKEN[:30]}..." if TELEGRAM_BOT_TOKEN else "❌ NO TOKEN SET")
+    print("✓ Starting bot...")
     print("\nBot menunggu pesan dari user...\n")
 
-    # Create the Application
-    application = Application.builder().token(TELEGRAM_BOT_TOKEN).post_init(post_init).build()
+    try:
+        # Create the Application
+        application = Application.builder().token(TELEGRAM_BOT_TOKEN).post_init(post_init).build()
 
-    # Add handlers
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("help", help_command))
-    application.add_handler(CommandHandler("info", info_command))
+        # Add handlers
+        application.add_handler(CommandHandler("start", start))
+        application.add_handler(CommandHandler("help", help_command))
+        application.add_handler(CommandHandler("info", info_command))
 
-    # Message handler untuk nomor paspor
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+        # Message handler untuk nomor paspor
+        application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
-    # Error handler
-    application.add_error_handler(error_handler)
+        # Error handler
+        application.add_error_handler(error_handler)
 
-    # Start the Bot
-    print("Press Ctrl+C to stop the bot\n")
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
+        # Start the Bot
+        print("Press Ctrl+C to stop the bot\n")
+        application.run_polling(allowed_updates=Update.ALL_TYPES)
+
+    except Exception as e:
+        print(f"\n❌ ERROR STARTING BOT: {e}")
+        print("\nTroubleshooting:")
+        print("1. Check token is valid")
+        print("2. Check internet connection")
+        print("3. Try again in a few seconds")
+        raise
 
 
 if __name__ == '__main__':
