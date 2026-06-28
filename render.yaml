@@ -1,11 +1,18 @@
 services:
   - type: web
-    name: pmi-bot
-    env: python
-    region: singapore
+    name: cek-pmi-bot
+    env: docker
     plan: free
-    buildCommand: pip install -r requirements.txt && python -m playwright install chromium
-    startCommand: python3 bot_pmi.py
+    dockerfilePath: ./Dockerfile.render
     envVars:
-      - key: TELEGRAM_BOT_TOKEN
-        value: 8829845272:AAFIr5llsLgyxSVsW-0T3E_rBT1kjpZcRLw
+      - key: TELEGRAM_TOKEN
+        scope: build
+        sync: false
+      - key: PORT
+        value: 10000
+
+    # Auto-restart jika crash
+    maxShutdownDelay: 30
+
+    # Healthcheck
+    healthCheckPath: /health

@@ -1,0 +1,158 @@
+═══════════════════════════════════════════════════════════════
+  🚀 RENDER.COM - SUPER QUICK SETUP
+═══════════════════════════════════════════════════════════════
+
+🎯 BOT DETAILS:
+───────────────────────────────────────────────────────────────
+Bot Name: cek-pmi-bot
+Type: Docker
+Plan: Free (or Starter $7/month untuk 24/7)
+Deployment: ~3-5 menit
+
+═══════════════════════════════════════════════════════════════
+📋 5-STEP DEPLOYMENT
+═══════════════════════════════════════════════════════════════
+
+1️⃣  PUSH KE GITHUB
+
+    git init
+    git add .
+    git commit -m "Initial commit"
+    git remote add origin https://github.com/USERNAME/cek-pmi-bot
+    git push -u origin main
+
+    (Ganti USERNAME dengan GitHub username Anda)
+
+2️⃣  BUKA RENDER.COM
+
+    https://render.com
+    Sign up dengan GitHub
+    Authorize dengan GitHub
+
+3️⃣  CREATE WEB SERVICE
+
+    Klik "New +" → "Web Service"
+    Search & select repo: cek-pmi-bot
+    Click "Connect"
+
+4️⃣  CONFIGURE SERVICE
+
+    Name: cek-pmi-bot
+    Runtime: Docker
+    Dockerfile: Dockerfile.render
+    Region: Singapore
+
+    Environment Variables:
+    Key: TELEGRAM_TOKEN
+    Value: [TOKEN dari @BotFather]
+
+5️⃣  DEPLOY
+
+    Click "Create Web Service"
+    Tunggu 3-5 menit
+    ✅ Bot online!
+
+═══════════════════════════════════════════════════════════════
+✅ VERIFIKASI BOT RUNNING
+═══════════════════════════════════════════════════════════════
+
+Method 1: Check Logs
+   Render Dashboard → Logs
+   Harus ada: "Bot siap menerima pesan dari Telegram"
+
+Method 2: Test di Telegram
+   Kirimkan: /start
+   Bot harus balik sambutan
+
+Method 3: Test Cek PMI
+   Kirimkan: /cek AU610053
+   Bot akan process & balik data
+
+═══════════════════════════════════════════════════════════════
+🎯 SETELAH DEPLOY
+═══════════════════════════════════════════════════════════════
+
+Bot sudah ONLINE 24/7 (dengan cold start di free tier)
+
+Siapapun bisa pakai dengan:
+1. Buka Telegram
+2. Cari bot pakai token
+3. Kirimkan nomor paspor
+4. Bot balik data PMI
+
+═══════════════════════════════════════════════════════════════
+📊 MONITORING
+═══════════════════════════════════════════════════════════════
+
+Dashboard Render:
+✓ Logs - Real-time logs
+✓ Events - Deployment history
+✓ Settings - Config & env vars
+✓ Metrics - CPU, memory usage
+
+═══════════════════════════════════════════════════════════════
+⚠️ COMMON ISSUES
+═══════════════════════════════════════════════════════════════
+
+Build failed:
+   → Check logs untuk error detail
+   → Verify Dockerfile.render & requirements.txt
+   → Try rebuild
+
+Bot tidak respond:
+   → Check logs di Render
+   → Verify TELEGRAM_TOKEN correct
+   → Try restart (Manual Deploy)
+
+Slow first response:
+   → Normal di free tier (cold start 30-60s)
+   → Upgrade ke Starter untuk 24/7 fast
+
+═══════════════════════════════════════════════════════════════
+💡 TIPS & TRICKS
+═══════════════════════════════════════════════════════════════
+
+Auto-redeploy on push:
+   ✓ Edit code locally
+   ✓ Push ke GitHub
+   ✓ Render auto-redeploy dalam 1-2 min
+
+Change token:
+   ✓ Render Dashboard → Settings
+   ✓ Edit TELEGRAM_TOKEN
+   ✓ Click Save → Bot auto-restart
+
+View logs:
+   ✓ Render Dashboard → Logs
+   ✓ Real-time streaming
+   ✓ Search & download
+
+═══════════════════════════════════════════════════════════════
+💰 PRICING
+═══════════════════════════════════════════════════════════════
+
+Free Tier:
+   ✓ 1 free service
+   ✓ Auto-sleep after 15 min idle
+   ✓ Cold start ~30-60 detik
+   ✓ Cukup untuk bot
+
+Starter ($7/month):
+   ✓ 24/7 always running
+   ✓ No auto-sleep
+   ✓ Better performance
+
+═══════════════════════════════════════════════════════════════
+🚀 READY?
+═══════════════════════════════════════════════════════════════
+
+1. Push ke GitHub ✓
+2. Go to render.com
+3. Create Web Service dari repo
+4. Set TELEGRAM_TOKEN
+5. Click Deploy
+6. ✅ Done! Bot online!
+
+═══════════════════════════════════════════════════════════════
+
+Baca RENDER_DEPLOY.md untuk dokumentasi lengkap!
