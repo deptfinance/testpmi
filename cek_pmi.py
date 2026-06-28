@@ -1,6 +1,6 @@
 """
 Script untuk cek data PMI dari website BP2MI
-Menggunakan Playwright untuk web automation
+Version: v3 (Proven working di VPS)
 """
 
 import asyncio
@@ -13,106 +13,66 @@ from playwright.async_api import async_playwright
 async def cek_pmi_batch(passports):
     """Batch check PMI data from BP2MI"""
     async with async_playwright() as p:
-        browser = await p.chromium.launch(
-            headless=True,
-            args=['--no-sandbox', '--disable-setuid-sandbox']
-        )
+        browser = await p.chromium.launch(headless=True, args=['--no-sandbox'])
         context = await browser.new_context(
             user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         )
         page = await context.new_page()
-
         results = {}
 
         for paspor in passports:
-            print(f"\n🔍 CEK: {paspor}")
+            print(f"🔍 Checking: {paspor}")
             try:
                 await page.goto(
                     'https://siskop2mi.bp2mi.go.id/publik/cek_status',
-                    timeout=20000,
-                    wait_until='domcontentloaded'
+                    timeout=20000
                 )
-                await page.wait_for_load_state('networkidle', timeout=10000)
-                await page.wait_for_timeout(500)
+                await page.wait_for_load_state('networkidle')
 
-                # Fill passport number
+                # Isi paspor
                 await page.fill("input[name='t_paspor']", paspor)
 
-                # Get & solve captcha (math: 5 + 3, 8 - 2)
-                captcha_elem = await page.query_selector('#captcha')
-                captcha_text = await captcha_elem.text_content() if captcha_elem else ''
-                captcha_clean = captcha_text.replace('×', '*').replace('x', '*').replace('X', '*').replace('?', '').replace('=', '').strip()
-
-                match = re.search(r'(\d+)\s*([+\-*])\s+(\d+)', captcha_clean)
+                # Solve captcha (format: "4 + 4 = ?")
+                captcha = await page.text_content('#captcha')
+                match = re.search(r'(\d+)\s([+\-])\s+(\d+)', captcha or '')
                 if match:
                     a, op, b = int(match.group(1)), match.group(2), int(match.group(3))
-                    answer = a + b if op == '+' else a - b if op == '-' else a * b
-                    await page.fill("input[name='t_captcha']", str(answer))
-                    print(f"   ✓ Captcha solved: {captcha_clean} = {answer}")
-                else:
-                    print(f"   ❌ Captcha tidak bisa dipecahkan")
-                    results[paspor] = {'Status': 'Captcha error'}
-                    continue
+                    ans = a + b if op == '+' else a - b if op == '-' else a * b
+                    await page.fill("input[name='t_captcha']", str(ans))
+                    print(f"   ✓ Captcha solved: {captcha.strip()} = {ans}")
 
-                # Click submit button
-                try:
-                    await page.locator("button#cek_status").click(force=True)
-                except:
-                    await page.click("button[type='submit']")
+                await page.locator("button#cek_status").click(force=True)
+                await page.wait_for_timeout(3000)
 
-                # Wait for result page
-                try:
-                    await page.wait_for_url("**/publik/status_pmi/**", timeout=15000)
-                except:
-                    pass
-
-                await page.wait_for_timeout(2000)
-
-                # Extract data from page structure (label + h5 format)
+                # Ambil data dari form-group
                 data = await page.evaluate("""() => {
-                    const result = {};
+                    const r = {};
                     const h4 = document.querySelector('h4');
-                    if (h4) result['No Registrasi'] = h4.textContent.trim();
-
-                    const groups = document.querySelectorAll('.form-group');
-                    for (const group of groups) {
-                        const label = group.querySelector('label');
-                        const h5 = group.querySelector('h5');
-                        if (label && h5) {
-                            let labelText = label.textContent.trim();
-                            const slashIdx = labelText.indexOf('/');
-                            if (slashIdx > 0) {
-                                labelText = labelText.substring(0, slashIdx).trim();
-                            }
-                            result[labelText] = h5.textContent.trim();
+                    if (h4) r['No Registrasi'] = h4.textContent.trim();
+                    document.querySelectorAll('.form-group').forEach(g => {
+                        const l = g.querySelector('label');
+                        const h5 = g.querySelector('h5');
+                        if (l && h5) {
+                            let t = l.textContent.trim();
+                            const i = t.indexOf('/');
+                            if (i > 0) t = t.substring(0, i).trim();
+                            r[t] = h5.textContent.trim();
                         }
-                    }
-                    return result;
+                    });
+                    return r;
                 }""")
 
                 if data and len(data) > 0:
                     results[paspor] = data
-                    print(f"   ✓ Data ditemukan: {len(data)} fields")
+                    print(f"   ✓ Data found: {len(data)} fields")
                 else:
-                    # Check for error modal
-                    error_msg = await page.evaluate("""() => {
-                        const modal = document.querySelector('.modal.show');
-                        if (modal) return modal.textContent.trim();
-                        return null;
-                    }""")
-
-                    if error_msg and 'Error' in error_msg:
-                        msg = error_msg.replace('×', '').replace('OK', '').strip()
-                        results[paspor] = {'Status': msg or 'Error'}
-                        print(f"   ❌ Error: {msg}")
-                    else:
-                        results[paspor] = {'Status': 'Tidak ditemukan'}
-                        print(f"   ❌ Data tidak ditemukan")
+                    results[paspor] = {'Status': 'Tidak ditemukan'}
+                    print(f"   ❌ Data tidak ditemukan")
 
             except Exception as e:
-                error_text = str(e)[:80]
-                results[paspor] = {'Status': f'Error: {error_text}'}
-                print(f"   ❌ Exception: {error_text}")
+                error_msg = str(e)[:80]
+                results[paspor] = {'Status': f'Error: {error_msg}'}
+                print(f"   ❌ Error: {error_msg}")
 
         await browser.close()
         return results
@@ -128,38 +88,34 @@ async def main():
     """CLI interface"""
     passports = sys.argv[1:] if len(sys.argv) > 1 else ['AU610053']
 
-    print("="*60)
-    print("📋 CEK STATUS PMI — BP2MI")
-    print("="*60)
+    print("=" * 60)
+    print("📋 CEK STATUS PMI — BP2MI (v3)")
+    print("=" * 60)
 
     results = await cek_pmi_batch(passports)
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("📊 HASIL CEK PMI")
-    print("="*60)
+    print("=" * 60)
 
     for paspor, data in results.items():
         if data and 'Status' not in data:
-            nama = data.get('Nama Lengkap', data.get('Nama', '-'))
+            nama = data.get('Nama Lengkap', '-')
             negara = data.get('Negara Penempatan', '-')
-            p3mi = data.get('P3MI/Pelaksana', data.get('P3MI', '-'))
             berlaku = data.get('Berlaku Hingga', '-')
-
-            print(f"\n  ✅ {paspor}")
-            print(f"     Nama    : {nama}")
-            print(f"     Negara  : {negara}")
-            print(f"     P3MI    : {p3mi}")
-            print(f"     Berlaku : {berlaku}")
+            print(
+                f"✅ {paspor}: {nama} | {negara} | {berlaku}"
+            )
         else:
             status = data.get('Status', 'Unknown') if data else 'No response'
-            print(f"\n  ❌ {paspor}")
-            print(f"     Status: {status}")
+            print(f"❌ {paspor}: {status}")
 
     # Save JSON result
     with open('/tmp/hasil_pmi.json', 'w') as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
-    print(f"\n📁 JSON hasil: /tmp/hasil_pmi.json")
-    print("="*60)
+
+    print(f"\n📁 JSON: /tmp/hasil_pmi.json")
+    print("=" * 60)
 
 
 if __name__ == '__main__':
