@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: pmi-bot
+    env: python
+    region: singapore
+    plan: free
+    buildCommand: pip install -r requirements.txt && python -m playwright install chromium
+    startCommand: python3 bot_pmi.py
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        value: 8829845272:AAFIr5llsLgyxSVsW-0T3E_rBT1kjpZcRLw
