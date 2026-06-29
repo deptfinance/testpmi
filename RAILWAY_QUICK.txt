@@ -1,0 +1,133 @@
+═══════════════════════════════════════════════════════════════
+  🚂 RAILWAY.APP - SUPER QUICK GUIDE
+═══════════════════════════════════════════════════════════════
+
+🎯 YOUR BOT DETAILS:
+───────────────────────────────────────────────────────────────
+Repository: deptfinance/testpmi
+Branch: claude/pmi-data-scraper-gga9xo
+Bot Token: 8829845272:AAFIr5llsLgyxSVsW-0T3E_rBT1kjpZcRLw
+Status: ✅ Ready to Deploy
+
+═══════════════════════════════════════════════════════════════
+📋 5-STEP DEPLOYMENT (5 MINUTES)
+═══════════════════════════════════════════════════════════════
+
+1️⃣  BUKA RAILWAY
+    https://railway.app
+    Klik "Sign In" → "Sign in with GitHub"
+
+2️⃣  CREATE PROJECT
+    Klik "New Project"
+    Pilih "Deploy from GitHub repo"
+
+3️⃣  SELECT REPOSITORY
+    Cari & pilih: deptfinance/testpmi
+
+4️⃣  SELECT BRANCH
+    Ubah ke: claude/pmi-data-scraper-gga9xo
+
+5️⃣  DEPLOY
+    Klik "Deploy" & tunggu 2-3 menit
+    ✅ Bot akan running 24/7!
+
+═══════════════════════════════════════════════════════════════
+✅ VERIFIKASI BOT RUNNING
+═══════════════════════════════════════════════════════════════
+
+Method 1: Check Railway Logs
+   Railway Dashboard → Deployments → View Logs
+   Harus ada: "✓ Bot sedang dijalankan..."
+
+Method 2: Test di Telegram
+   Buka Telegram → Kirimkan /start ke bot
+   Bot harus balik dengan pesan sambutan
+
+Method 3: Real Test
+   Kirimkan nomor paspor: AU610053
+   Bot harus process & balik data
+
+═══════════════════════════════════════════════════════════════
+🎯 SETELAH DEPLOY
+═══════════════════════════════════════════════════════════════
+
+Bot adalah ONLINE 24/7 di cloud Railway!
+
+Siapapun bisa gunakan dengan:
+1. Buka Telegram
+2. Cari bot pakai token
+3. Kirimkan nomor paspor (contoh: AU610053)
+4. Bot balik dengan data PMI
+
+═══════════════════════════════════════════════════════════════
+📊 MONITORING
+═══════════════════════════════════════════════════════════════
+
+Lihat logs real-time:
+   Railway Dashboard → Project → Deployments → View Logs
+
+Restart bot:
+   Railway Dashboard → Click "Redeploy"
+
+Check status:
+   Railway Dashboard → Overview (status harus "Running")
+
+═══════════════════════════════════════════════════════════════
+⚠️ COMMON ISSUES
+═══════════════════════════════════════════════════════════════
+
+Bot tidak respond:
+   → Check logs di Railway
+   → Try restart (Redeploy)
+   → Tunggu 1-2 menit, try lagi
+
+Deployment failed:
+   → Check logs untuk error detail
+   → Try redeploy lagi
+   → Kalau tetap gagal, try local Docker method
+
+Network error di logs:
+   → Normal! Railway juga block BP2MI
+   → Bot akan normal di lokal server Anda
+
+═══════════════════════════════════════════════════════════════
+💡 TIPS
+═══════════════════════════════════════════════════════════════
+
+Pricing:
+   ✓ First $5/month FREE
+   ✓ Bot use ~$8/month
+   ✓ Total: Usually FREE with credits
+
+Auto-restart:
+   ✓ Railway auto-restart jika bot crash
+   ✓ Data logs disimpan permanent
+   ✓ Zero downtime guaranteed
+
+Scaling:
+   ✓ Bisa increase resources di Railway
+   ✓ Bisa add database jika perlu
+   ✓ Bisa setup monitoring & alerts
+
+═══════════════════════════════════════════════════════════════
+📞 DOKUMEN LENGKAP
+═══════════════════════════════════════════════════════════════
+
+Baca RAILWAY_SETUP.md untuk:
+✓ Step-by-step dengan screenshots
+✓ Troubleshooting lengkap
+✓ Dashboard guide
+✓ Monitoring & maintenance
+
+═══════════════════════════════════════════════════════════════
+🚀 READY?
+═══════════════════════════════════════════════════════════════
+
+1. Go to: https://railway.app
+2. Sign in dengan GitHub
+3. Create project dari testpmi repo
+4. Choose branch: claude/pmi-data-scraper-gga9xo
+5. Click Deploy
+6. ✅ Done! Bot online!
+
+═══════════════════════════════════════════════════════════════

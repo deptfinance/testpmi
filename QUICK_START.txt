@@ -1,0 +1,92 @@
+═══════════════════════════════════════════════════════════════
+  QUICK START - Script Cek Data PMI (BP2MI)
+═══════════════════════════════════════════════════════════════
+
+🚀 INSTALASI PERTAMA KALI (hanya perlu 1x):
+─────────────────────────────────────────────────────────────
+
+1. Buka Terminal / Command Prompt
+2. Masuk ke folder project:
+
+   cd /path/to/testpmi
+
+3. Install library Python:
+
+   Linux/Mac: pip3 install -r requirements.txt
+   Windows:   pip install -r requirements.txt
+
+4. Install Chromium browser:
+
+   Linux/Mac: python3 -m playwright install chromium
+   Windows:   python -m playwright install chromium
+
+5. Verifikasi:
+
+   Linux/Mac: python3 -c "from playwright.async_api import async_playwright; print('✓ OK')"
+   Windows:   python -c "from playwright.async_api import async_playwright; print('✓ OK')"
+
+   Jika output "✓ OK" → Instalasi berhasil!
+
+
+🎯 CARA PAKAI (setiap kali ingin cek):
+─────────────────────────────────────────────────────────────
+
+Linux/Mac:
+   python3 cek_pmi.py AU610053
+
+Windows:
+   python cek_pmi.py AU610053
+
+Ganti "AU610053" dengan nomor paspor Anda
+
+
+📊 EXPECTED OUTPUT:
+─────────────────────────────────────────────────────────────
+
+🔍 Mengecek data PMI untuk paspor: AU610053
+
+📲 Membuka website BP2MI...
+✓ Website terbuka
+
+📖 Membaca captcha...
+📝 Soal Captcha: 5 + 3
+✓ Jawaban captcha: 8
+
+✍️  Mengisi form...
+   ✓ Nomor paspor: AU610053
+   ✓ Jawaban captcha: 8
+
+🔘 Mengklik tombol 'Cek Status'...
+   ✓ Tombol diklik
+
+⏳ Menunggu hasil...
+
+============================================================
+📊 HASIL PENCARIAN DATA PMI
+============================================================
+Nama                     : (nama akan muncul di sini)
+Negara Penempatan        : (negara akan muncul di sini)
+...
+============================================================
+
+
+❌ TROUBLESHOOTING CEPAT:
+─────────────────────────────────────────────────────────────
+
+Error "No module named 'playwright'":
+   → Jalankan: pip3 install playwright
+
+Error "Chromium not found":
+   → Jalankan: python3 -m playwright install chromium
+
+Error "command not found":
+   → Ganti python3 dengan python (untuk Windows)
+
+Error "nomor paspor tidak diberikan":
+   → Tambahkan nomor paspor di command
+   → Contoh: python3 cek_pmi.py AU610053
+
+Untuk detail lengkap, buka file SETUP.md
+
+
+═══════════════════════════════════════════════════════════════

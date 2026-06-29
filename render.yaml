@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: cek-pmi-bot
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile.render
+    envVars:
+      - key: TELEGRAM_TOKEN
+        sync: false
+      - key: PORT
+        value: 10000
+    healthCheckPath: /

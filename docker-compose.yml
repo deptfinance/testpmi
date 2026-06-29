@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  pmi-bot:
+    build: .
+    container_name: pmi-bot
+    restart: always
+    environment:
+      - TELEGRAM_BOT_TOKEN=8829845272:AAFIr5llsLgyxSVsW-0T3E_rBT1kjpZcRLw
+    volumes:
+      - ./logs:/app/logs
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

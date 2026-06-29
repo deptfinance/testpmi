@@ -1,0 +1,174 @@
+═══════════════════════════════════════════════════════════════
+  QUICK START - Telegram Bot Cek PMI
+═══════════════════════════════════════════════════════════════
+
+📱 BOT TOKEN:
+   8829845272:AAFIr5llsLgyxSVsW-0T3E_rBT1kjpZcRLw
+
+🚀 INSTALASI PERTAMA (hanya perlu 1x):
+─────────────────────────────────────────────────────────────
+
+1. Terminal/Command Prompt
+
+2. Masuk ke folder:
+   cd /path/to/testpmi
+
+3. Install library:
+   Linux/Mac: pip3 install -r requirements.txt
+   Windows:   pip install -r requirements.txt
+
+4. Install Chromium:
+   Linux/Mac: python3 -m playwright install chromium
+   Windows:   python -m playwright install chromium
+
+
+🎯 CARA MENJALANKAN BOT:
+─────────────────────────────────────────────────────────────
+
+Linux/Mac:
+   python3 bot_pmi.py
+
+Windows:
+   python bot_pmi.py
+
+Setelah running, buka Telegram dan gunakan bot!
+
+
+💬 CARA PAKAI BOT DI TELEGRAM:
+─────────────────────────────────────────────────────────────
+
+1. Cari bot di Telegram (using the token)
+
+2. Kirimkan nomor paspor:
+   AU610053
+
+3. Bot akan balas dengan data PMI:
+   ✅ DATA PMI DITEMUKAN
+
+   👤 Nama: (nama akan muncul)
+   🌍 Negara: (negara akan muncul)
+   ...
+
+4. Commands bot:
+   /start - Sambutan
+   /help  - Panduan
+   /info  - Info bot
+
+
+⚙️ BOT COMMANDS:
+─────────────────────────────────────────────────────────────
+
+/start    - Tampilkan pesan sambutan
+/help     - Tampilkan panduan penggunaan
+/info     - Info tentang bot
+
+Atau langsung kirimkan nomor paspor (contoh: AU610053)
+
+
+🔧 SETTING & KONFIGURASI:
+─────────────────────────────────────────────────────────────
+
+Untuk ganti token bot:
+1. Edit file: bot_pmi.py
+2. Cari: TELEGRAM_BOT_TOKEN = "..."
+3. Ganti dengan token baru
+
+Untuk buat bot baru:
+1. Open Telegram
+2. Cari: @BotFather
+3. /newbot dan ikuti instruksi
+4. Copy token
+5. Paste di bot_pmi.py
+
+
+📊 EXPECTED OUTPUT:
+─────────────────────────────────────────────────────────────
+
+Saat jalankan bot:
+
+============================================================
+🤖 BOT CECK PMI - TELEGRAM
+============================================================
+
+✓ Bot sedang dijalankan...
+✓ Token: 8829845272:AAFIr5...
+
+Bot menunggu pesan dari user...
+
+Press Ctrl+C to stop the bot
+
+
+Saat user kirim nomor paspor, bot balas:
+
+✅ DATA PMI DITEMUKAN
+
+👤 Nama
+Budi Santoso
+
+🌍 Negara Penempatan
+Arab Saudi
+
+🏢 P3MI
+PT Karya Bersama
+
+🤝 Mitra LN
+Al Rajhi
+
+📍 Alamat
+Jl. Merdeka No. 42, Jakarta
+
+📅 Berlaku Hingga
+2025-12-31
+
+✅ Data berhasil diambil dari BP2MI
+
+
+🚨 TROUBLESHOOTING:
+─────────────────────────────────────────────────────────────
+
+Bot tidak start:
+   → Cek apakah semua library terinstall
+   → Cek token valid
+
+Bot tidak merespon:
+   → Cek internet connection
+   → Lihat apakah ada error message
+   → Try restart bot
+
+Website BP2MI tidak accessible:
+   → Tunggu beberapa menit
+   → Cek internet connection
+   → Website mungkin sedang maintenance
+
+
+📚 DOKUMENTASI LENGKAP:
+─────────────────────────────────────────────────────────────
+
+Baca file BOT_SETUP.md untuk:
+- Setup detail
+- Deployment 24/7
+- Monitoring
+- Troubleshooting lengkap
+- Future improvements
+
+
+💡 TIPS:
+─────────────────────────────────────────────────────────────
+
+1. Bot berjalan di local machine atau server
+   → Tidak berjalan jika komputer dimatikan
+   → Deploy ke cloud untuk 24/7 availability
+
+2. Untuk production, gunakan VPS/Cloud
+   → Heroku, Railway, PythonAnywhere, DigitalOcean
+
+3. Setup systemd untuk auto-restart
+   → Lihat BOT_SETUP.md section deployment
+
+4. Monitor bot dengan logs
+   → Aktifkan logging ke file
+
+
+═══════════════════════════════════════════════════════════════
+Ready? Run: python3 bot_pmi.py 🚀
+═══════════════════════════════════════════════════════════════

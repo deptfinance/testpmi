@@ -1,0 +1,16 @@
+[Unit]
+Description=Telegram Bot PMI Checker
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/testpmi
+ExecStart=/usr/bin/python3 /home/ubuntu/testpmi/bot_pmi.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
